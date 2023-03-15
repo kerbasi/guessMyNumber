@@ -5,6 +5,7 @@ const scoreEl = document.querySelector('.score');
 const guess = document.querySelector('.guess');
 const page = document.querySelector('body');
 const checkBtn = document.querySelector('.check');
+const againBtn = document.querySelector('.again');
 const messageEl = document.querySelector('.message');
 let highScore = localStorage.getItem('highScore') || 0;
 let guessNum;
@@ -21,6 +22,11 @@ const getRandomNum = range => {
   return Math.floor(Math.random() * range) + 1;
 };
 
+const setScore = (scoreEl, score) => {
+  scoreEl.textContent = score;
+  return score;
+};
+
 setHighScore(highScoreEl, highScore);
 guessNum = getRandomNum(20);
 
@@ -29,13 +35,13 @@ checkBtn.addEventListener('click', () => {
     if (Number(guess.value) === guessNum) {
       messageEl.textContent = 'You WON!!!';
       page.style.backgroundColor = 'green';
+      setHighScore(highScoreEl, score);
     } else if (Number(guess.value) > guessNum) {
       messageEl.textContent = 'Too big!';
     } else {
       messageEl.textContent = 'Too small!';
     }
-    score -= 1;
-    scoreEl.textContent = score;
+    score = setScore(scoreEl, score - 1);
     if (score === 0) {
       messageEl.textContent = 'You LOOSE!!!';
       page.style.backgroundColor = 'red';
@@ -44,4 +50,12 @@ checkBtn.addEventListener('click', () => {
   } else {
     messageEl.textContent = 'You should choose a number';
   }
+});
+
+againBtn.addEventListener('click', () => {
+  score = score = setScore(scoreEl, 20);
+  page.style.backgroundColor = '#222';
+  guessNum = getRandomNum(20);
+  messageEl.textContent = 'Start guessing...';
+  guess.value = '';
 });
