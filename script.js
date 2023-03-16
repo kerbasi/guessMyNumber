@@ -29,6 +29,10 @@ const setScore = (scoreEl, score) => {
   return score;
 };
 
+const displayMessage = message => {
+  messageEl.textContent = message;
+};
+
 setHighScore(highScoreEl, highScore);
 guessNum = getRandomNum(20);
 
@@ -36,26 +40,26 @@ checkBtn.addEventListener('click', () => {
   const chosenNumber = Number(guess.value);
   if (chosenNumber) {
     if (chosenNumber === guessNum) {
-      messageEl.textContent = 'You WON!!!';
+      displayMessage('You WON!!!');
       page.style.backgroundColor = 'green';
       numberEl.style.width = '30rem';
       numberEl.textContent = guessNum;
       setHighScore(highScoreEl, score);
     } else {
       if (chosenNumber > guessNum) {
-        messageEl.textContent = 'Too big!';
+        displayMessage('Too big!');
       } else {
-        messageEl.textContent = 'Too small!';
+        displayMessage('Too small!');
       }
       score = setScore(scoreEl, score - 1);
     }
     if (score === 0) {
-      messageEl.textContent = 'You LOOSE!!!';
+      displayMessage('You LOOSE!!!');
       page.style.backgroundColor = 'red';
       checkBtn.disabled = 'true';
     }
   } else {
-    messageEl.textContent = 'You should choose a number';
+    displayMessage('You should choose a number');
   }
 });
 
@@ -63,7 +67,7 @@ againBtn.addEventListener('click', () => {
   score = score = setScore(scoreEl, 20);
   page.style.backgroundColor = '#222';
   guessNum = getRandomNum(20);
-  messageEl.textContent = 'Start guessing...';
+  displayMessage('Start guessing...');
   guess.value = '';
   numberEl.style.width = '15rem';
   numberEl.textContent = '?';
