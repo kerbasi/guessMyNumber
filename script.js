@@ -8,6 +8,7 @@ const numberEl = document.querySelector('.number');
 const checkBtn = document.querySelector('.check');
 const againBtn = document.querySelector('.again');
 const messageEl = document.querySelector('.message');
+const clearBtn = document.querySelector('.clear');
 let highScore = localStorage.getItem('highScore') || 0;
 let guessNum;
 let score = 20;
@@ -40,12 +41,14 @@ checkBtn.addEventListener('click', () => {
       numberEl.style.width = '30rem';
       numberEl.textContent = guessNum;
       setHighScore(highScoreEl, score);
-    } else if (chosenNumber > guessNum) {
-      messageEl.textContent = 'Too big!';
     } else {
-      messageEl.textContent = 'Too small!';
+      if (chosenNumber > guessNum) {
+        messageEl.textContent = 'Too big!';
+      } else {
+        messageEl.textContent = 'Too small!';
+      }
+      score = setScore(scoreEl, score - 1);
     }
-    score = setScore(scoreEl, score - 1);
     if (score === 0) {
       messageEl.textContent = 'You LOOSE!!!';
       page.style.backgroundColor = 'red';
@@ -64,4 +67,10 @@ againBtn.addEventListener('click', () => {
   guess.value = '';
   numberEl.style.width = '15rem';
   numberEl.textContent = '?';
+});
+
+clearBtn.addEventListener('click', () => {
+  localStorage.setItem('highScore', 0);
+  highScore = 0;
+  highScoreEl.textContent = 0;
 });
